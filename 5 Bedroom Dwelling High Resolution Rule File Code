@@ -1,0 +1,1140 @@
+/**
+ * File:    004_Building5Bed_Final.cga
+ * Created: 5 June 2020 19:22:52 GMT
+ * Author:  User
+ */
+ 
+#The below code was produced as part of the CEGE0049 Research Project - "Calculating Development Potential for Housing; Exploring 3D representations in Urban Planning" by Annabel Hales
+
+####### FIVE BEDROOM TWO STOREY SEMI DETACHED DWELLING IN HIGH RESOLUTION ################
+
+version "2017.0"
+const assetPath = "assets/House/"  
+
+#BASIC COLORS
+
+@Color
+attr colorGround = "#cb4154"
+@Color
+attr colorTop = "#e9ccb1"
+@Color
+attr colorWindow = "#0000dd"
+@Color
+attr colorDoor = "#0000dd"
+
+#HOUSE FOUNDATIONS
+@Group("House") @Order(5)
+attr Facade_Scale = 1
+
+@Group("House",1) @Order(2)
+@Range(3,10)
+
+attr Height_to_Roof = 7.92
+@Group("House") @Order(5)
+
+attr numberofFloors = 2
+@Group("House") @Order(5)
+attr floorHeight = 3
+
+@Group("House") @Order(5)
+attr GFHeight = 3
+
+@Group("House") @Order(5)
+attr UFHeight = 3
+
+attr buildingHeight = numberofFloors * floorHeight 
+
+@Hidden
+attr startElevation = 0
+attr BuildingGroundArea = 0
+attr PlotArea = 0
+
+#WINDOWS
+@Group("Windows",3) @Order()
+
+attr Window_Color = "#b0d1df"
+@Group("Windows") @Order()
+@Range(0,1)
+
+attr Window_Transparency = 0.5
+@Group("Windows") @Order()
+@Color
+
+attr Trim_Color = "#FFFFFF"
+@Group("Windows") @Order()
+@Range(0.04,0.08)
+
+attr Window_Trim_Thickness = 0.06
+
+
+#FRONT PROCH
+@Group("Front Porch",4) @Order(2)
+@Range(1.9,4.1)
+
+attr Front_Porch_Depth = 1.5
+@Group("Front Porch") @Order(1)
+@Range(2.1,5.1)
+
+attr Front_Porch_Width = 3
+@Group("Front Porch",4) @Order(0)
+@Range(0.8,1.4)
+
+attr Front_Door_Width = 1.2
+
+
+#ROOF
+@Group("Roof") @Order(4)
+@Range(0.5,3)
+
+attr Roof_Scale = 1
+
+@Group("Roof") @Order(4)
+@Range ("Gable", "Hip", "Flat")
+attr RoofType = randomRoofType
+
+@Hidden
+attr heightOfGableRoof = 0	
+
+# GARDEN
+@Group("Garden") @Order(5)
+@Range(0.5,3)
+attr Garden_Scale = 1
+
+# TREES
+@Hidden
+import Plant: "test/Plant_Loader.cga"
+@Group("Tree") @Order(30) 
+@Range("Random", "Flannelbush", "Mediterranean Buckthorn", "Oval-leaved Privet", "Snake Plant", "Spainish Broom", "Yew", "Rose", "Orchid", "Black Locust","Blue Gum Eucalyptus", "California Walnut", "Common Hawthorn", "Common Whitebeam", "Conker Tree", "Ficus", "Field Elm", "White Ash", "White Poplar" )
+
+# WHOLE LIST OF TREES = "Black Locust","Blue Gum Eucalyptus",  "Amazon Sword Plant","American Chestnut","American Sycamore","Apricot","Australian Pine","Baldcypress","Balsam Fir","Bamboo","Banana Tree","Basswood","Bay Laurel","Black Locust","Blue Gum Eucalyptus","Boxwood","Cabbage Palm Fern","California Bay","California Incense Cedar","California Palm","California Redwood","California Walnut","Coconut Palm","Common Hawthorn","Common Whitebeam","Conker Tree","Date Palm","Desert Willow","Douglas Fir","European Beech","European Larch","Ficus","Field Elm","Flannelbush","Flowering Dogwood","Giant Sequoia","Hedgehog Agave","Japanese Angelica Tree","Lacy Tree Philodendron","Leyland Cypress","Lily of the Valley","Lodgepole Pine","Mediterranean Buckthorn","Mexican Palmetto","Mountain Mahogany","Northern Red Oak","Norway Maple","Norway Spruce","Orange Tree","Orchid","Oval-leaved Privet","Palm Lily","Palo Verde","Paper Birch","Parlour Palm","Prickly Pear Cactus","Red Alder","Red Hickory","Rhododendron Azaleas","Rose","Ruffle Palm","Saguaro Cactus","Sassafras","Scots Pine","Sea Islands Yucca","Shadbush","Snake Plant","Southern Magnolia","Spanish Broom","Strawberry Tree","Sugar Maple","Sunflower","Sweetgum","Umbrella Acacia","Western Juniper","White Ash","White Oak","White Poplar","White Willow","Witch Hazel","","_____________________________","GENERICS","","Generic Dead Tree","Generic Stump","Generic Unknown","","_____________________________","PROXIES","","Algarrobo","American Elderberry","American Pepper","American Silverberry","Athel Tamarisk","Avocado","Black Tupelo","Buttonbush","Canada Buffaloberry","Chinaberry Tree","Chinese Tallow Tree","Common Hackberry","Common Holly","Common Persimmon","Desert Bitterbrush","European Hornbeam","Giant Chinquapin","Honey Locust","Hophornbeam","Huckleberry Shrub","Japanese Hemlock","Japanese Nutmeg","Judas Tree","Lawson Cypress","Loblolly Bay","Mexican Buckeye","Necklacepod","Northern Bilberry","Northern White Cedar","Octopus Tree","Osage Orange","Paper Bark Tree","Pawpaw","Persian Silk Tree","Princess Tree","Smooth Sumac","Sourwood","Southern Wax Myrtle","Tanoak","Tree of Heaven","Turkish Hazel","Western Soapberry","White Mulberry","Yellow Poplar","Yew","","_____________________________","LATIN NAME","","Abies balsamea","Acacia tortilis","Acer platanoides","Acer saccharum","Aesculus hippocastanum","Agave stricta","Ailanthus altissima","Aiphanes horrida","Albizia julibrissin","Alnus rubra","Amelanchier canadensis","Aralia elata","Arbutus unedo","Asimina triloba","Betula papyrifera","Bulbophyllum phalaenopsis","Buxus sempervirens","Calocedrus decurrens","Carnegiea saguaro","Carpinus betulus","Carya ovalis","Castanea dentata","Casuarina equisetifolia","Celtis occidentalis","Cephalanthus occidentalis","Cercis siliquastrum","Cercocarpus montanus","Chamaecyparis lawsoniana","Chamaedorea elegans","Chilopsis linearis","Chrysolepis chrysophylla","Citrus sinensis","Cocos nucifera","Convallaria majalis","Cordyline petiolaris","Cornus florida","Corylus colurna","Crataegus monogyna","Cupressus leylandii","Cyrilla racemiflora","Diospyros virginiana","Echinodorus bleheri","Elaeagnus commutata","Eucalyptus globulus","Fagus sylvatica","Ficus benjamina","Frangula alnus","Fraxinus americana","Fremontodendron californicum","Generic deadtree","Generic stump","Generic unknown","Gleditsia triacanthos","Gordonia lasianthus","Hamamelis virginiana","Helianthus annuus","Ilex aquifolium","Juglans regia","Juniperus occidentalis","Larix decidua","Laurus nobilis","Ligustrum ovalifolium","Liquidambar styraciflua","Liriodendron tulipifera","Lithocarpus densiflorus","Maclura pomifera","Magnolia grandiflora","Melaleuca quinquenervia","Melia azedarach","Morus alba","Musa acuminata","Myrica cerifera","Nyssa sylvatica","Opuntia aciculata","Ostrya virginiana","Oxydendrum arboreum","Parkinsonia aculeata","Paulownia tomentosa","Persea americana","Philodendron selloum","Phlebodium aureum","Phoenix dactylifera","Phyllostachys aurea","Picea abies","Pinus contorta","Pinus sylvestris","Platanus occidentalis","Populus tremuloides","Prosopis nigra","Prunus armeniaca","Pseudotsuga menziesii","Purshia glandulosa","Quercus alba","Quercus rubra","Rhamnus alaternus","Rhododendron tsutsuji","Rhus glabra","Robinia pseudoacacia","Rosa grandiflora","Sabal mexicana","Salix alba","Sambucus canadensis","Sansevieria trifasciata","Sapindus saponaria","Sassafras albidum","Schefflera actinophylla","Schinus molle","Sequoia sempervirens","Sequoiadendron giganteum","Shepherdia canadensis","Sophora tomentosa","Sorbus aria","Spartium junceum","Tamarix aphylla","Taxodium distichum","Taxus baccata","Thuja occidentalis","Tilia americana","Torreya nucifera","Triadica sebifera","Tsuga diversifolia","Ulmus minor","Umbellularia californica","Ungnadia speciosa","Vaccinium uliginosum","Washingtonia filifera","Yucca gloriosa")
+attr Tree_Type = "Random"
+@Group("Tree")@Order(35) 
+@Range("Model","Fan","Analytical")
+attr Tree_Display = "Model" 
+
+#FENCES
+# High Fence 
+
+attr poleHeight = 2
+attr barHeight1 = 0.5
+attr barHeight2 = 1.2
+attr poleWidth = 0.15
+attr boardWidth = 0.09
+attr boardDist = 0.1
+attr barDimension = 0.2
+attr poleDist = 3
+attr poleThickness = 0.01
+attr boardHeight = 2
+attr boardThickness = 0.04
+
+
+# Low Fence 
+attr LowbarDimension = 0.1
+attr LowbarHeight1 = 0.2
+attr LowbarHeight2 = 0.6
+attr LowboardDist = 0.2
+attr LowboardHeight = 1
+attr LowboardWidth = 0.08	
+attr LowpoleHeight = 1
+attr LowpoleWidth = 0.1
+
+# TEXTURES
+const Path_Texture = assetPath + "Path2.jpg"
+const Parking_Texture = assetPath + "Gravel.jpg"
+const Hedge_Texture = assetPath + "Hedge1.jpg"
+const Lawn_Texture = assetPath + "Lawn.jpg"
+const BrickPlanter_Texture = assetPath + "Brick1.jpg"
+const Soil_Texture = assetPath + "Soil.jpg"		
+const Wood_Texture = assetPath + "Wood.jpg"		
+
+######################## CODE BEGINS #############################
+
+#INITIAL PLOT SPLITS
+
+@StartRule
+Plot -->
+	set (PlotArea, geometry.area)
+	report ("PlotArea", PlotArea)
+	split(x){1: ParcelBoundaryLeft  |9.6: Parcel | 1: ParcelBoundaryRight } 
+
+Parcel-->
+	setback(6.09){ street.front : FrontYard | remainder: BuildingandGarden }
+	
+BuildingandGarden  -->
+	setback(11){ street.back : BackYard | remainder: BuildingLot}
+	
+BuildingLot -->
+	Roof
+	offset(-0.3)
+	comp(f) {  inside: Internal | border: BuildingFace }	
+
+ParcelBoundaryLeft -->
+	split(z){17.10: BackLeftGardenSideLawn | 6.73: FrontLeftGardenSideLawn } 
+	
+ParcelBoundaryRight-->
+	split(z){17.10: BackRightGardenSideLawn | 6.73: FrontRightGardenSideLawn} 
+
+
+Internal -->
+
+set (BuildingGroundArea, geometry.area) #setting area of parcel
+report ("BuildingGroundArea", BuildingGroundArea) 
+	  
+	comp(f) { inside: Floor | border: Empty }	 
+	extrude (buildingHeight)   
+
+BuildingFace --> 
+ 
+	extrude (buildingHeight)# Reduce shape to best fitting rectangle.
+	primitiveCube()
+     comp(f) { front : Face | side : InsideWall | top : Empty} 	
+	 
+Face-->
+split (y) {floorHeight : GroundFloor | floorHeight: TopFloor}  
+
+InsideWall -->
+ 	Empty 
+
+Empty -->       #Function to make surface invisible 
+	set(material.opacity, 0 )
+  
+
+##################### INITIAL HOUSE SPLITS #######################
+
+GroundFloor-->
+	#color(colorGround)        # Differentiating each facade based on assigned street line
+	comp(f){street.front : BottomFrontFacade }  
+	comp(f){street.left : BottomLeftSideFacade } 
+	comp(f){street.right : BottomRightSideFacade } 
+	comp(f){street.back : BottomBackFacade } 
+	
+
+TopFloor -->
+	#color(colorTop)
+	comp(f){street.front : TopFrontFacade }
+	comp(f){street.left : TopLeftSideFacade } 
+	comp(f){street.right : TopRightSideFacade } 
+	comp(f){street.back : TopBackFacade }  
+	comp(f) {top:NIL} 	
+	
+#BOTTOM FLOOR FACADES	
+#Vertical Splits across facade 
+BottomFrontFacade -->
+	split(x){0.30 : WallThickness| 1.25 : WallGround | 2: GroundFrontandBackWindowPannel | 0.6: WallGround | 1.3: FrontDoorPannel | 0.6: WallGround | 2: GroundFrontandBackWindowPannel | 1.25 : WallGround | 0.30 : WallThickness}	
+		
+BottomBackFacade -->	
+	split(x){0.30 : WallThickness |1.6: WallGround | 2: GroundFrontandBackWindowPannel | 1: WallGround  | 4.4: BackDoorPannel | 0.3: WallThickness}
+	
+BottomLeftSideFacade -->
+	split(x){1: WallGround | 1: GroundSideWindowPannel | 2.8: WallGround  | 1: GroundSideWindowPannel | ~1 : WallGround}
+	
+BottomRightSideFacade -->
+	split(x){1: WallGround | 1: GroundSideWindowPannel | 2.8: WallGround  | 1: GroundSideWindowPannel | ~1 : WallGround}
+	
+#TOP FLOOR FACADES	
+TopFrontFacade-->	
+	split(x){0.30 : WallThickness |1.2: WallUpper | 2: TopFrontMainWindowPannel | 0.90: WallUpper | 0.80: TopFrontMiddleWindowPannel | 0.90: WallUpper | 2: TopFrontMainWindowPannel | 1.5 : WallUpper | 0.3 : WallThickness}
+	
+TopBackFacade -->	
+	split(x){0.30 : WallThickness | 1.5: WallUpper| 2: TopBackWindowPannel | 2: WallUpper  | 2: TopBackWindowPannel | 1.5 : WallUpper | 0.30 : WallThickness}
+		
+TopLeftSideFacade -->
+	split(x){1: WallUpper | 1: TopSideWindowPannel | 2.8: WallUpper  | 1: TopSideWindowPannel | ~1 : WallUpper}
+
+TopRightSideFacade -->
+	split(x){1: WallUpper | 1: TopSideWindowPannel | 2.8: WallUpper  | 1: TopSideWindowPannel | ~1 : WallUpper}
+	
+#WALLS
+const Facade_Texture = assetPath + "Brick1.jpg"
+
+WallThickness -->  
+WallGround
+
+WallGround -->  
+	WallUpper
+
+WallUpper -->  #setting projection to allow texture to be assigned
+	setupProjection(0, scope.xy, Facade_Scale, Facade_Scale, 0, 0) 
+	projectUV(0)
+	texture(Facade_Texture)	
+	
+	
+##################### WINDOW PANNELS  #######################
+#BOTTOM FLOOR WINDOW PANNELS
+#Ground floor horizontal splits of  Window pannels assigned in above vertical split
+
+GroundFrontandBackWindowPannel -->
+	split(y){0.9: WallGround | 0.2: WindowTop | 1.3: WindowBack | 0.2: WindowTop | ~1 : WallGround}
+
+	
+GroundSideWindowPannel--> 
+	split(y){0.9: WallGround | 0.2: WindowLedgeWall | 1.5: WindowTopMiddle | ~1 : WallGround}
+	
+
+#TOP FLOOR WINDOW PANNELS
+#Top floor horizontal splits of  Window pannels assigned in above vertical split
+				
+TopFrontMainWindowPannel--> 
+	split(y){0.9: WallUpper | 0.2: WindowLedge | 1.5: WindowTopSide | ~1 : WallUpper}
+
+TopFrontMiddleWindowPannel--> 
+	split(y){0.9: WallUpper | 0.2: WindowLedge | 1.5: WindowTopMiddle | ~1 : WallUpper}
+	
+TopBackWindowPannel--> 
+	split(y){0.9: WallUpper | 0.2: WindowLedge | 1.5: WindowBack | ~1 : WallUpper}
+
+TopSideWindowPannel--> 
+	split(y){0.9: WallUpper | 0.2: WindowLedgeWall | 1.5: WindowTopMiddle | ~1 : WallUpper}
+
+
+##################### WINDOW FEATURES  #######################
+
+#GENERAL WINDOW DETAIL
+
+const Feature_Texture = assetPath + "Stone2.jpg"
+const Window_Trim_Depth = 0.08
+ 
+WindowLedge --> 
+	#color(colorTop)
+	extrude(0.2)
+	setupProjection(0, scope.xy, Facade_Scale, Facade_Scale, 0, 0) 
+	projectUV(0)
+	texture(Feature_Texture)
+
+WindowLedgeWall	-->  
+	color(colorTop)
+			
+Window--> 
+	texture("")
+	offset(-Window_Trim_Thickness)
+	comp(f) { inside: WindowPane | border: WindowTrim }
+	
+WindowTop-->	
+	color(colorTop)
+	
+WindowTrim -->
+	color(Trim_Color)
+	translate(rel, scope, 0, 0, Window_Trim_Depth / 2)
+	extrude(-Window_Trim_Depth)
+	X.
+	
+WindowPane --> 
+	color(Window_Color)
+	set(material.opacity, 1 - Window_Transparency)
+	X.
+			
+MainWindowCrossX --> #Window Cross feature
+	color(Trim_Color)
+	split(x) {
+		0.5: NIL |  0.1 : FrontDoorWindowCrossBoth | 0.7: NIL |  0.1 : FrontDoorWindowCrossBoth 
+	}
+
+MainWindowCrossY -->
+	color(Trim_Color)
+	split(y) {
+		((scope.sy - DoorWindowCrossThickness) / 2): NIL |  
+		0.03 : FrontDoorWindowCrossBoth |
+		((scope.sy - DoorWindowCrossThickness) / 2): NIL  
+	}
+	
+#TOP WINDOW DETAIL
+
+WindowTopMiddle-->
+	color(Trim_Color)
+	texture("")
+	offset(-Window_Trim_Thickness)
+	comp(f) { inside: WindowPane | border: WindowTrim } 
+
+	FrontDoorWindowCrossY
+
+WindowTopSide -->
+ 	texture("")
+	offset(-Window_Trim_Thickness)
+	comp(f) { inside: WindowPane | border: WindowTrim } 
+	MainWindowCrossX
+	MainWindowCrossY	
+
+
+#GROUND WINDOWM DETAIL 
+WindowBack-->
+	color(Trim_Color)
+	texture("")
+	offset(-Window_Trim_Thickness)
+	comp(f) { inside: WindowPane | border: WindowTrim } 
+
+	FrontDoorWindowCrossX
+	FrontDoorWindowCrossY
+
+
+##################### FRONT DOOR PANNEL  #######################
+
+#FRONT DOOR SURROUNDING PANNEL
+					# front door pannel needs to be split by X and Y due to overhang
+FrontDoorPannel -->
+	split(x){0.25 : WallGroundPannelLeft | 0.838: FrontDoorOpeningErase | ~1 : WallGroundPannelRight}
+	
+	split(y){1.98: Empty| 0.1: WallGround | 0.2: Empty | 0.3: FrontLedge | ~1 : Empty}
+
+WallGroundPannelLeft -->
+	split(y){1.98: WallGround | 0.3: EmptyPannelLeft | ~1 : WallGround}
+
+WallGroundPannelRight -->
+	split(y){1.98: WallGround | 0.3: EmptyPannelRight | ~1 : WallGround}
+
+EmptyPannelLeft -->
+	split(x){0.07 : WallGround  |  ~1 : Empty }
+	
+EmptyPannelRight -->
+	split(x){0.16 : Empty |  ~1 : WallGround }
+
+FrontDoorOpeningErase -->	
+	split(y){0.1: WallGround |1.98: FrontDoor| 0.3: Empty | ~1 : WallGround}
+	
+#FRONT DOOR MAIN COMPONENT CREATION
+
+const Door_Panel_Thickness = 0.14
+const Front_Door_Thickness = Window_Trim_Depth / 2
+const DoorWindowCrossThickness = Front_Door_Thickness / 2
+
+FrontDoorOpening -->	#opening cutout
+	texture("")
+	offset(-Window_Trim_Thickness)
+	comp(f) { inside: FrontDoor | border: FrontDoorTrim }
+	
+FrontDoor --> # initial door splits
+	#color(Trim_Color)
+	split(y) {1.0 : FrontDoorBottom | Window_Trim_Thickness : FrontDoorWaist | 1.5 : FrontDoorTop
+	}
+
+FrontDoorTrim --> #front door is extruded inwards from trim
+	color(Trim_Color)
+	translate(rel, scope, 0, 0, Window_Trim_Depth / 2)
+	extrude(-Window_Trim_Depth)
+	X.	
+	
+#FRONT DOOR INDIVIDUUAL COMPONENT BREAKDOWN
+	
+FrontDoorTop -->	
+	offset(-Door_Panel_Thickness)
+	comp(f) { inside: FrontDoorWindow | border: FrontDoorBorder }
+
+FrontDoorWaist -->	
+	#color(Trim_Color)
+	translate(rel, scope, 0, 0, (Front_Door_Thickness * 1.5) / 2)
+	extrude(-Front_Door_Thickness * 1.5)
+
+FrontDoorBottom -->
+	#color(Trim_Color)
+	offset(-Door_Panel_Thickness)
+	comp(f) { inside: FrontDoorBottomInside | border: FrontDoorBorder }
+	
+#FRONT DOOR BORDER
+	
+FrontDoorBorder -->
+	translate(rel, scope, 0, 0, Front_Door_Thickness / 2)
+	extrude(-Front_Door_Thickness)
+
+FrontDoorBottomInside -->
+ color("#f8f8ff")
+	X.	
+
+#FRONT DOOR WINDOW
+
+FrontDoorWindow -->
+	WindowPane
+	FrontDoorWindowCrossX
+	FrontDoorWindowCrossY
+
+FrontDoorWindowCrossX -->
+	split(x) {
+		((scope.sx - DoorWindowCrossThickness) / 2): NIL |  
+		DoorWindowCrossThickness : FrontDoorWindowCrossBoth |
+		((scope.sx - DoorWindowCrossThickness) / 2): NIL  
+	}
+
+FrontDoorWindowCrossY -->
+	split(y) {
+		((scope.sy - DoorWindowCrossThickness) / 2): NIL |  
+		DoorWindowCrossThickness : FrontDoorWindowCrossBoth |
+		((scope.sy - DoorWindowCrossThickness) / 2): NIL  
+	}
+	
+
+FrontDoorWindowCrossBoth -->
+	translate(rel, scope, 0, 0, (DoorWindowCrossThickness) / 2)
+	extrude(-DoorWindowCrossThickness)	
+
+
+##################### PORCH AND OVERHANG CREATION  #######################
+			
+# PORCH INITIAL EXTRUSION 
+
+const bottomOfFrontPorchRoof = (0) 	
+const FrontPorchSlabThickness = 0.1	
+const Lumber_Thickness = 0.06	
+const Roof_Thickness = 0.1
+const RoofWall_Texture = Facade_Texture
+const RoofWall_Scale = Facade_Scale
+const Roof_Texture = assetPath + "Roof3.jpg"
+
+FrontLedge --> 
+	#color("#a14743")
+	extrude(1)
+	comp(f) {
+		world.down: FrontPorchFloor 
+	}
+
+FrontPorchFloor -->
+	texture("")
+	split(x) { 
+	
+		Front_Porch_Width : FrontPorchComponents | 
+		((scope.sx - Front_Porch_Width) / 2) : NIL
+	}
+FrontPorchComponents -->
+	FrontPorchRoof
+	FrontPorchSlab
+	NIL
+
+# FRONT PORCH ROOF CREATION 
+
+FrontPorchRoof -->
+	translate(rel, world, 0, bottomOfFrontPorchRoof, 0)
+	reverseNormals  #reverses extrusion
+	roofShed(10,2) 
+	FrontPorchRoofComponents
+	
+FrontPorchRoofComponents-->
+	comp(f) {
+	object.top: FrontPorchRoofTop
+	}
+
+FrontPorchRoofTop -->
+	setupProjection(0, scope.xy, Roof_Scale, Roof_Scale, 0, 0) 
+	projectUV(0)
+	texture(Roof_Texture)
+	extrude(world.y, Roof_Thickness)
+	X.
+
+FrontPorchShedRoofCap -->	
+	translate(rel, world, 0, bottomOfFrontPorchRoof, 0)
+	roofShed(10,2) 
+
+# FRONT PORCH ROOF SLAB CREATION EITHER SIDE OF ROOF 
+	
+FrontPorchSlab-->
+	FrontPorchSlabStub	
+	extrude(FrontPorchSlabThickness)
+	X.
+	
+FrontPorchSlabStub -->
+	FrontPorchFoundation
+	FrontPorchDetails
+	NIL	
+	
+	
+# FRONT PORCH FOUNDATIONS (CREATES LAYERING OF ROOF EFFECT) 
+	
+FrontPorchFoundation -->
+	translate(rel, world, 0, - FrontPorchSlabThickness, 0)
+	split(x) {
+		Window_Trim_Thickness: NIL |
+		1.20: FrontPorchFoundationPart2 |
+		Window_Trim_Thickness: NIL
+	}	
+	
+FrontPorchFoundationPart2 -->
+	split(y) {
+		(1.8 - Lumber_Thickness): FrontPorchFoundationPart3 |
+		Lumber_Thickness: NIL
+	}	
+	
+FrontPorchFoundationPart3 -->
+	extrude(0.2 - FrontPorchSlabThickness)
+	comp(f) {world.up : NIL | world.down: NIL | all: WindowTop}
+	
+
+# FRONT PORCH BEAMPANE EXTRUSION PREPARATION 
+#Front porch widthways split to isolate pane for beam extrusion 
+
+FrontPorchDetails -->
+	color(Trim_Color)
+	reverseNormals
+	split(x) 
+	{ Lumber_Thickness: NIL |0.06: BeamPane |  0.06 : FrontPorchShedRoofCap | 0.97: Empty |  0.05: FrontPorchShedRoofCap | Lumber_Thickness:  BeamPane | 1 : Empty}
+
+BeamPane --> #Beampane outwards split to determine where beam will be extruded from 
+	split(y)
+	{Lumber_Thickness:BackBeam |0.85: Empty | Lumber_Thickness:FrontBeam
+	
+	}
+	
+# FRONT PORCH BEAMPANE EXTRUSION	
+
+BackBeam --> 
+	extrude(-2.18)
+	color(colorTop)
+		
+FrontBeam  -->
+	extrude(-2.18)
+	split(y) { 0.2 : Empty  | 2.4: Beam  } #0.2 empty due to raise of porch floor 
+		
+Beam -->
+	color(colorTop) # change to wood color 
+	
+
+##################### BACK DOOR PANNEL CREATION   #######################
+			
+#BACK DOOR PANNEL
+#Back foor initial splits
+BackDoorPannel -->
+	split(y){0.1: Patio | 2.1: BackDoorWidth | ~0.8 : WallGround}
+
+BackDoorWidth-->
+	split(x){1.1: WallGround | 1.8: BackDoor | ~0.1 : WallGround}
+	
+BackDoor -->
+	split(x){0.9: FrenchDoor | 0.9: FrenchDoor}
+	color("#a14743")
+
+
+FrenchDoor --> ### same as window for now but aim to change to add more detail 
+	texture("")
+	offset(-Window_Trim_Thickness)
+	comp(f) { inside: WindowPane | border: WindowTrim }
+
+#PATIO CREATION 
+
+Patio--> 
+	#color("#a14743")
+	
+	extrude(4)
+	comp(f){ bottom: NIL | all: PatioTexture}	
+
+PatioTexture --> # adding texture to planter - wood
+	setupProjection(0,scope.xy,1,1) #scope xy (not xz for curved structures)
+	projectUV(0)
+	texture(Wood_Texture)
+	
+##################### ROOF CREATION   #######################	
+
+# ROOF DETAILS
+
+randomRoofType =
+	100%: "Gable"
+	#0%: "Hip"
+	else: "Flat"
+ 
+# DECLAIsRING ROOF TYPE 
+	
+Roof --> 
+extrude (buildingHeight) 
+comp(f) {top: GableRoof}
+#color("#a14743")
+
+GableRoof --> 
+ 	roofGable(30, 0.5, 0.3) #angle and overhang X and Y
+ 	set(heightOfGableRoof, scope.sz)
+	comp(f) {vertical: RoofWall		#Section of wall within roof
+			| horizontal: Ceiling	#Underside of roof
+			| all: RoofTop					# Send roof to texturing.
+		}
+
+# PROJECTIONS TO TEXTURE  PARTS OF THE ROOF 
+RoofWall -->
+	setupProjection(0, scope.xy, RoofWall_Scale, RoofWall_Scale, 0, -Height_to_Roof) 
+	projectUV(0)
+	texture(RoofWall_Texture)
+	X.
+
+RoofTop -->
+setupProjection(0, scope.xy, Roof_Scale, Roof_Scale, 0, 0) 
+	projectUV(0)
+	texture(Roof_Texture)
+	extrude(world.y, Roof_Thickness)
+	X.
+  
+ ##################### OTHER   #######################	
+
+Ceiling-->
+	color(colorTop)
+
+##################### CENTRAL FRONT GARDEN DRIVE AREA #######################	
+
+#FIRST FRONT YARD SPLIT - MAIN OUTWARDS
+
+FrontYard--> 
+
+	split(z){1.29 : GardenPlatformBackFar | 4.8: ParkingStrech}	
+
+
+#SECOND FRONT YARD SPLIT - WIDTHWAYS
+
+
+ParkingStrech--> # Widthways split 
+   split(x){0.715: LawnTexture | 0.9: FlowerBed  |2.4: ParkingSpace |0.285: GardenBedPath  |1: Path |0.285: GardenBedPath | 2.4 : ParkingSpace| 0.9: FlowerBed | 0.715: LawnTexture } 
+   
+
+GardenPlatformBackFar--> 
+	split(x){3.715: GardenBedHouseRight  |2.17: Porch | ~3.715: GardenBedHouseLeft }  
+	
+######### PARKING STRECH PANNEL DETAILS #######
+
+
+# RAISED HEDGE CREATION EITHER SIDE OF PATHWAY
+
+GardenBedPath --> 
+	#color("#6E866F")
+	extrude(0.3) 
+	comp(f){ bottom: NIL | all: HedgeTexture}	
+
+HedgeTexture -->
+	setupProjection(0,scope.xy,1,1) 
+	projectUV(0)
+	texture(Hedge_Texture)
+
+# FRONT PATHWAY 	
+
+Path -->
+
+setupProjection(0, scope.xz, 1, 1) projectUV(0)# Setting texture for pathway
+		rotateUV(0,rand(0))
+		texture(Path_Texture) 
+
+# PARKING SPACE 
+	
+ParkingSpace --> 
+	 
+	setupProjection(0, scope.xz, 2*1, 2*1) projectUV(0)
+		rotateUV(0,rand(360))
+		texture(Parking_Texture) 
+		
+#RAISED BRICK FLOWER BED (EITHER SIDE OF PARKING SPACES)
+
+#Flower bed inside split	
+FlowerBed -->
+	offset(-0.2)
+	comp(f) { inside: InnerPlanting | border: BrickBorder }
+
+#Brick border creation
+BrickBorder -->
+	extrude(0.3)
+	comp(f){ bottom: NIL | all: BrickPlanterTexture}	
+	
+
+BrickPlanterTexture --> # adding texture to planter - brick
+	setupProjection(0,scope.xy,1,1) #scope xy (not xz for curved structures)
+	projectUV(0)
+	texture(BrickPlanter_Texture)
+
+#Inner Flower Planting 
+
+InnerPlanting -->
+	PlanterBush #adding plants / flowers - see PlanterBush code below 
+	extrude(0.1)
+	comp(f){ bottom: NIL | all: SoilTexture1}# adding soil texture to base - see texture below
+
+
+######### FRONT GARDEN BACK PANNEL DETAILS #######
+
+#BED RIGHT SIDE OF PORCH OUTWARD SPLITS 
+GardenBedHouseRight -->
+	split(z){0.39: BackBed1  |0.90: BackBed2Left}  
+
+#BED LEFT  SIDE OF PORCH OUTWARD SPLITS 
+GardenBedHouseLeft -->
+	split(z){0.39: BackBed1  |0.90: LawnTexture}  
+
+#PORCH
+Porch --> 
+	color ("#c0c0c0")
+	extrude(0.08) 
+
+
+#SIDWARDS FRONT GARDEN BEDS 
+
+#Bed Closest to Wall 
+BackBed1 --> # soil and bush creation 
+	SoilTexture2
+	BushSoilDistribution
+
+#Second Bed Outwards from Wall 
+BackBed2Left --> #Widthways split to allow for tree creation at far left of wall 
+	split(x){0.8: TreeSpot  | ~1 : LawnTexture}  
+
+
+##END OF FRONT GARDEN CENTRAL PANNEL 
+   
+##################### SIDES FRONT GARDEN DRIVE AREA #######################	
+
+FrontLeftGardenSideLawn -->
+ 	LawnTexture
+	extrude(world.y, LowpoleHeight)
+	comp(f){left: MakeFenceLow} # Low fence projection 
+
+
+FrontRightGardenSideLawn --> 
+ 	LawnTexture
+	extrude(world.y, LowpoleHeight)
+	comp(f){right: MakeFenceLow}
+		
+######### CENTRAL BACK GARDEN PANNEL ########
+BackYard -->
+
+	#LawnTexture
+	split(z){0.5: SoilTexture2 | 1: BackWallPlanting | ~9: LawnTexture| ~0.5: BackHouseSideBed}  
+	extrude(world.y, poleHeight)
+	comp(f){back: MakeFence} #SEE FENCE PRODUCTION BELOW 
+
+BackHouseSideBed--> 
+	#SoilTexture2
+	split(x){4.3: SoilTexture2 | ~1: LeafPlantBed}  
+	
+LeafPlantBed -->
+	LeafPlantDistribution
+	SoilTexture2
+ ######### SIDES BACK GARDEN PANNEL ########
+
+#OUTWARDS SPLIT FROM BACK TO CREATE BACK PLANTING PANNEL 
+BackLeftGardenSideLawn-->
+	split(z){0.5: SoilTexture2 | 1: BackWallPlanting | ~7: LawnTexture} 
+
+	extrude(world.y, poleHeight)
+	comp(f){front: MakeFence}
+	comp(f){left: MakeFence}
+	comp(f){back: MakeFence}
+	
+BackRightGardenSideLawn-->
+	split(z){0.5: SoilTexture2 |1: BackWallPlanting | ~7: LawnTexture} 	
+	extrude(world.y, poleHeight)
+	comp(f){front: MakeFence}
+	comp(f){right: MakeFence}
+	comp(f){back: MakeFence}
+
+#CALLING BACK WALL PLANTING 
+BackWallPlanting-->
+	SoilTexture2
+	TreeSpotBack
+	BushSoilDistributionBack
+	
+	
+################ FLOWERS AND TREES PLANTERS ##################
+
+#### GARDEN SOIL/LAWN TEXTURES ###
+
+#Soil Projections 
+SoilTexture1-->
+	setupProjection(0, scope.xy, 1, 1) projectUV(0) #XY Porjection setup for raised surface Soil Projection 
+		rotateUV(0,rand(0))
+		texture(Soil_Texture) 
+
+SoilTexture2-->
+	setupProjection(0, scope.xz, 2, 2) projectUV(0)  #XZ Projection for flat down Soil projection 
+		rotateUV(0,rand(360))
+		texture(Soil_Texture) 
+		
+#Lawn Projection
+LawnTexture --> 
+	setupProjection(0, scope.xz, 4, 4) projectUV(0) #XZ Projection for flat down Lawn projection 
+		rotateUV(0,rand(360))
+		texture(Lawn_Texture)
+		
+
+#####TREE / BUSH DISTRIBUTIONS  - STEP 1####
+
+#FRONT GARDEN TREE/ BUSH PLACEMENT 
+
+#Front Garden Flower Planter placement
+PlanterBush -->
+ 	scatter(surface,(40), uniform) {Bush} 
+	NIL
+
+#Tree Placement for front left tall tree 
+TreeSpot --> 
+	LawnTexture
+	scatter(surface,(1), uniform) {Tree} 
+	NIL
+
+#Bush placement for front bushes next to house wall 
+BushSoilDistribution -->
+	
+ 	scatter(surface,(10), uniform) {BushSoil} 
+	NIL
+	
+#BACK GARDEN TREE/ BUSH PLACEMENT 
+
+
+#Tree Placement for back garden tree at far left and right 
+TreeSpotBack -->
+	#offset(0, inside) 
+	scatter(surface,(1), uniform) {TreeBack} 
+	NIL
+
+#Bush placement for back garden bushes 
+BushSoilDistributionBack -->
+ 	scatter(surface,(50), uniform) {BushSoilBack} 
+	NIL
+
+#Distribution back of house
+LeafPlantDistribution --> 
+	scatter(surface,(30), uniform) {LeafPlantBack} 
+	NIL
+
+######TREE / BUSH DETAILS  - STEP 2######
+
+#FRONT GARDEN TREE/ BUSH DETAILS
+
+#Placement details 
+
+Bush --> #Used as front flower planter 
+	set(Plant.Name, BushTypeAdjusted)
+	set(Plant.Height, 0.9)
+	set(Plant.Radius, Plant.getRadius)
+	set(Plant.Representation, Tree_Display) 
+	Plant.Generate()
+
+
+Tree --> # Used for front left tall tree 
+	set(Plant.Name, TreeTypeAdjusted)
+	set(Plant.Height, 4)
+	set(Plant.Radius, Plant.getRadius)
+	set(Plant.Representation, Tree_Display) 
+	Plant.Generate()
+	
+
+BushSoil --> #Bush placement for front bushes next to house wall 
+	set(Plant.Name, BushSoilTypeAdjusted)
+	set(Plant.Height, 1.2)
+	set(Plant.Radius, Plant.getRadius)
+	set(Plant.Representation, Tree_Display) 
+	Plant.Generate()
+	
+#BACK GARDEN TREE/ BUSH DETAILS
+	
+TreeBack --> #Tree Placement for back garden tree at far left and right 
+	set(Plant.Name, TreeTypeAdjusted)
+	set(Plant.Height, 50%: 4 else: 5)
+	set(Plant.Radius, Plant.getRadius)
+	set(Plant.Representation, Tree_Display) 
+	Plant.Generate()
+
+
+BushSoilBack --> #Bush placement for back garden bushes 
+	set(Plant.Name, BushSoilTypeAdjusted)
+	set(Plant.Height, 2.5)
+	set(Plant.Radius, Plant.getRadius)
+	set(Plant.Representation, Tree_Display) 
+	Plant.Generate()
+
+LeafPlantBack -->
+	set(Plant.Name, LeafBushTypeAdjusted)
+	set(Plant.Height, 1.5)
+	set(Plant.Radius, Plant.getRadius)
+	set(Plant.Representation, Tree_Display) 
+	Plant.Generate()
+
+######TREE / BUSH DETAILS  - STEP 3######
+
+#Calling Random Distribution 
+
+BushTypeAdjusted =  #Used as front flower planter 
+	case Tree_Type == "Random": bushTypeRandom
+	else: Tree_Type
+
+TreeTypeAdjusted = # Used for front left tall tree and for back garden tree at far left and right 
+	case Tree_Type == "Random": treeTypeRandom
+	else: Tree_Type
+
+
+BushSoilTypeAdjusted = #Bush placement for front bushes and back garden  
+	case Tree_Type == "Random": bushSoilTypeRandom
+	else: Tree_Type
+
+
+LeafBushTypeAdjusted  =
+	case Tree_Type == "Random": LeafbushSoilTypeRandom
+	else: Tree_Type
+
+######TREE / BUSH DETAILS  - STEP 4 ######
+
+#Calling tree species and distribution %
+
+bushTypeRandom =  #Used as front flower planter 
+	80%: "Yew"
+	20%: "Rose"
+	#50%: "Flannelbush"
+	#25%: "Snake Plant"
+	else:"Flannelbush"
+
+
+treeTypeRandom = # Used for front left tall tree and for back garden tree at far left and right 
+	10%: "Black Locust"
+	10%: "Blue Gum Eucalyptus"
+	10%: "California Walnut"
+	10%: "Common Hawthorn"
+	10%: "Common Whitebeam"
+	10%: "Conker Tree"
+	10%: "Ficus"
+	10%: "Field Elm"
+	10%: "White Ash"
+	else: "White Poplar"
+
+bushSoilTypeRandom = #used for front bushes and back garden  
+	50%: "Flannelbush"
+	else:"Yew"
+	
+LeafbushSoilTypeRandom = 	
+	100%: "Snake Plant"
+	else:"Snake Plant"
+	
+	
+#END OF TREES/ BUSH DETAILS 
+
+################################################ FENCE PRODUCTION #################################################################################
+#Below code adapted from Esri Community Thread <https://community.esri.com/thread/98280>
+
+
+########### FENCE CREATION STEP 1 - CALLING SPLIT PRODUCTION ###########
+
+#HIGH BACK FENCE 
+MakeFence -->
+	MakeBar1
+	MakeBar2
+	PutPoles
+	
+#LOW FRONT FENCE 	
+MakeFenceLow -->
+	MakeBar1Low
+	MakeBar2Low
+	PutPolesLow	
+
+
+########### FENCE CREATION STEP 2 - LENTHWAYS SPLIT 1 PRODUCTION ###########
+
+#HIGH BACK FENCE 
+MakeBar1 -->
+	split(y) {barHeight1 : NIL | barDimension : extrude(barDimension / 5) t(0,'-1.2,0) Bar | ~1 : NIL}
+
+#LOW FRONT FENCE 
+MakeBar1Low -->
+	split(y) {LowbarHeight1 : NIL | LowbarDimension : extrude(LowbarDimension / 5) t(0,'-1.2,0) BarLow | ~1 : NIL}
+
+
+########### FENCE CREATION STEP 3 - LENTHWAYS SPLIT 2 PRODUCTION ###########
+
+#HIGH BACK FENCE 
+MakeBar2 -->
+	split(y) {barHeight2 : NIL | barDimension : extrude(barDimension / 5) t(0,'-1.2,0) Bar | ~1 : NIL}
+
+#LOW FRONT FENCE 
+MakeBar2Low -->
+	split(y) {LowbarHeight2 : NIL | LowbarDimension : extrude(LowbarDimension / 5) t(0,'-1.2,0) BarLow | ~1 : NIL}
+
+########### FENCE CREATION STEP 4 - POLE CREATION ###########
+
+#HIGH BACK FENCE 
+PutPoles -->
+	alignScopeToAxes(y)
+	split(x) {{ poleWidth: MakePole | ~poleDist : PutBoards}* | poleWidth: MakePole }
+
+#LOW FRONT FENCE 
+PutPolesLow -->
+	alignScopeToAxes(y)
+	split(x) {{ LowpoleWidth: MakePoleLow | ~poleDist : PutBoardsLow}* | LowpoleWidth: MakePoleLow }
+
+########### FENCE CREATION STEP 5 - BAR COMPONENT SPLITS ###########
+
+#HIGH BACK FENCE 		
+Bar -->
+	color("#706050")
+	alignScopeToAxes(y)
+	comp(f) {front : BarBevel | back : BarBevel | all : Bar.}
+
+#LOW FRONT FENCE 	
+BarLow -->
+	color("#706050")
+	alignScopeToAxes(y)
+	comp(f) {front : BarBevel | back : BarBevel | all : BarLow.}
+
+
+########### FENCE CREATION STEP 6 - FENCE GABLE ROOF CREATION  ###########
+
+#HIGH BACK FENCE 
+BarBevel -->
+	roofGable(45)
+	split(y) {'.1 : /* now delete inner roof base polygon */comp(f) {bottom : NIL | all : Bar.} | ~1 : NIL}
+
+#LOW FRONT FENCE 	
+BarBevelLow -->
+	roofGable(45)
+	split(y) {'.1 : /* now delete inner roof base polygon */comp(f) {bottom : NIL | all : BarLow.} | ~1 : NIL}
+	
+########### FENCE CREATION STEP 7 - POLR CREATION  ###########
+
+#HIGH BACK FENCE 
+MakePole -->
+	color("#706050")
+	alignScopeToAxes(y)
+	innerRect
+	s('1,'1,poleThickness)
+	i("assets/fencePole.obj")
+	t(0,0,'-1)
+	Pole.
+
+#LOW FRONT FENCE 	
+MakePoleLow -->
+	color("#706050")
+	alignScopeToAxes(y)
+	innerRect
+	s('1,'1,poleThickness)
+	i("assets/fencePole.obj")
+	t(0,0,'-1)
+	Pole.
+
+########### FENCE CREATION STEP 8 - ASSIGNING BOARD LOCATION  ###########
+
+#HIGH BACK FENCE 
+PutBoards -->
+	alignScopeToAxes(y)
+	split(x) {{ ~boardDist : NIL | boardWidth: MakeBoard}* | boardDist : NIL }	
+
+#LOW FRONT FENCE 	
+PutBoardsLow -->
+	alignScopeToAxes(y)
+	split(x) {{ ~LowboardDist : NIL | LowboardWidth: MakeLowBoard}* | LowboardDist : NIL }	
+
+########### FENCE CREATION STEP 9 - CREATING BOARD 1 ###########
+
+#HIGH BACK FENCE 	
+MakeBoard -->
+	alignScopeToGeometry(zUp, 0, world.lowest)
+	s('1,boardHeight,'1)
+	Board
+	
+#LOW FRONT FENCE 	
+MakeLowBoard -->
+	alignScopeToGeometry(zUp, 0, world.lowest)
+	s('1,LowboardHeight,'1)
+	LowBoard
+	
+########### FENCE CREATION STEP 10 - CREATING BOARD 2 ###########
+
+#HIGH BACK FENCE 	
+Board -->
+	color("#706050")
+	alignScopeToAxes(y)
+	innerRect
+	s('1,'1,boardThickness)
+	i("assets/fenceBoard.obj")
+	Board.
+
+#LOW FRONT FENCE 
+LowBoard -->
+	color("#706050")
+	alignScopeToAxes(y)
+	innerRect
+	s('1,'1,boardThickness)
+	i("assets/fenceBoard.obj")
+	LowBoard.
+
+########### End of Code  ###########
